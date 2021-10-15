@@ -15,6 +15,6 @@ public enum OperationType {
 	COMPRA_A_VISTA(0, "COMPRA A VSTA"), COMPRA_PARCELADA(1, "COMPRA PARCELADA"), SAQUE(2, "SAQUE"),
 	PAGAMENTO(3, "PAGAMENTO");
 
-	private int id;
+	private Integer id;
 	private String description;
 }
