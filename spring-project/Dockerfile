@@ -5,9 +5,7 @@ COPY pom.xml /tmp/pom.xml
 WORKDIR /tmp/
 RUN mvn clean install -DskipTests
 
-
 # Package stage
-
 FROM openjdk:11
 COPY --from=build /tmp/target/spring-project.jar spring-project.jar
 EXPOSE 8080
