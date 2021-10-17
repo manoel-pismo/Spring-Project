@@ -19,8 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.rachadel.domain.Account;
-import com.rachadel.repository.AccountRepository;
+import com.rachadel.module.account.domain.Account;
+import com.rachadel.module.account.repository.AccountRepository;
 
 /**
  * @author Manoel Rachadel Neto
@@ -58,6 +58,7 @@ public class AccountControllerTest {
 										new Account(1L, "Maria Joaquina", "maria.joaquina@gmail.com", "187.068.858-96"));
 		BDDMockito.when(accountRepository.findAll()).thenReturn(accounts);
 		ResponseEntity<String> response = restTemplate.getForEntity("/v1/accounts", String.class);
+		response.getBody();
 		Assertions.assertThat(response.getStatusCodeValue()).isEqualTo(200);
 	}
 	

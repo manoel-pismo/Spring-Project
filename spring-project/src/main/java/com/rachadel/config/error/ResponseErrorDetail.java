@@ -1,4 +1,4 @@
-package com.rachadel.error;
+package com.rachadel.config.error;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

@@ -1,4 +1,4 @@
-package com.rachadel.repository;
+package com.rachadel.module.account.repository;
 
 
 import java.util.Optional;
@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.rachadel.domain.Account;
+import com.rachadel.module.account.domain.Account;
 
 /**
  * @author Manoel Rachadel Neto	

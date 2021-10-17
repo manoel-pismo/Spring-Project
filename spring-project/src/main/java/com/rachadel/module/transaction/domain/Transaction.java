@@ -1,4 +1,4 @@
-package com.rachadel.domain;
+package com.rachadel.module.transaction.domain;
 
 import java.math.BigDecimal;
 
@@ -12,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.rachadel.enumeration.OperationType;
+import com.rachadel.module.account.domain.Account;
+import com.rachadel.module.transaction.domain.enumeration.OperationType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

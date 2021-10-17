@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.rachadel.domain.Account;
-import com.rachadel.repository.AccountRepository;
+import com.rachadel.module.account.domain.Account;
+import com.rachadel.module.account.repository.AccountRepository;
 
 /**
  * @author Manoel Rachadel Neto

@@ -1,9 +1,9 @@
-package com.rachadel.repository;
+package com.rachadel.module.transaction.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.rachadel.domain.Transaction;
+import com.rachadel.module.transaction.domain.Transaction;
 
 /**
  * @author Manoel Rachadel Neto

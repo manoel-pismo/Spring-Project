@@ -1,4 +1,4 @@
-package com.rachadel.error.exception;
+package com.rachadel.config.error.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
