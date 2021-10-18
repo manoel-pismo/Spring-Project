@@ -14,7 +14,6 @@ public class ResponseErrorDetail {
 	
 	private String title;
 	private String detail;	
-	private long timestamp;
 	private String developerMessage;
 
 }

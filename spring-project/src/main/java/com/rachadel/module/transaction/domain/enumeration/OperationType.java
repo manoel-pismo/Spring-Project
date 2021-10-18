@@ -1,5 +1,13 @@
 package com.rachadel.module.transaction.domain.enumeration;
 
+import java.util.Iterator;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.NonNull;
+
+import com.rachadel.config.error.exception.ValidationErrorException;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,4 +30,18 @@ public enum OperationType {
 
 	private Integer id;
 	private String description;
+		
+	
+	
+	public static OperationType getById(Integer id) {
+		if (id == null) return null;
+
+		for (OperationType operationType : OperationType.values()) {
+			if (id == operationType.getId()) {
+				return operationType;
+			}
+		}
+		
+		throw new ValidationErrorException("invalid operation type. id: " + id);
+	}
 }

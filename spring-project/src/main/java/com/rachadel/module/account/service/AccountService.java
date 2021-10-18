@@ -3,6 +3,8 @@ package com.rachadel.module.account.service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +35,7 @@ public class AccountService {
 	
 	// salvar
 	public Account save(Account account) {
-		account.setId(0L);
+		account.setId(null);
 		this.verifyAccountNotExistsByDocumentNumber(account.getDocumentNumber());
 		return accountRepository.save(account);
 	}
@@ -49,21 +51,12 @@ public class AccountService {
 		return accountRepository.findById(id);
 	}
 	
-	// verificar se a conta tem saldo para retirada
-	public void verifyAccountHasBalanceForWithdral(BigDecimal balance, BigDecimal withdrawalAmount) {
-		if (balance.compareTo(withdrawalAmount) == 0) {  // -1 -- < menor que | -- 0 igual que | -- 1 maior que  
+	// verificar se a conta tem saldo
+	public void verifyAccountHasBalance(BigDecimal balance, BigDecimal amount) {
+		if (balance.compareTo(amount) >= 0) {  // -1 -- < menor que | -- 0 igual que | -- 1 maior que  
 			throw new ValidationErrorException("account not have balance for withdral."
 														+ " balance: "+ balance
-														+ " withdrawa amount: "+ withdrawalAmount);
-		}
-	}
-	
-	// verificar se a conta tem saldo para compra
-	public void verifyAccountHasBalanceForPurchase(BigDecimal balance, BigDecimal purchaseAmount) {
-		if (balance.compareTo(purchaseAmount) == 0) {  // -1 -- < menor que | -- 0 igual que | -- 1 maior que  
-			throw new ValidationErrorException("not have balance for purchase."
-														+ " balance: "+ balance
-														+ " purchase amount: "+ purchaseAmount);
+														+ " amount: "+ amount);
 		}
 	}
 

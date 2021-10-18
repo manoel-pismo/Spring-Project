@@ -35,12 +35,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseErrorDetail responseErrorDetail = ResponseErrorDetail.builder()
 				.title("resource not found")
 				.detail(rnfException.getMessage())
-				.timestamp(new Date().getTime())
 				.developerMessage(rnfException.getClass().getName())
 				.build();
 
 		ResponseError responseError = ResponseError.builder()
 				.status(HttpStatus.NOT_FOUND.value())
+				.timestamp(new Date())				
 				.errors(Collections.singletonList(responseErrorDetail))
 				.build();
 
@@ -53,12 +53,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseErrorDetail responseErrorDetail = ResponseErrorDetail.builder()
 				.title("a validation error occurred")
 				.detail(veException.getMessage())
-				.timestamp(new Date().getTime())
 				.developerMessage(veException.getClass().getName())
 				.build();
 
 		ResponseError responseError = ResponseError.builder()
 				.status(HttpStatus.BAD_REQUEST.value())
+				.timestamp(new Date())	
 				.errors(Collections.singletonList(responseErrorDetail))
 				.build();
 
@@ -70,19 +70,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
 		List<ResponseErrorDetail> lstErrors = new ArrayList<>();
-		Long now = new Date().getTime(); 
 		
 		for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
 			lstErrors.add(ResponseErrorDetail.builder()
 					.title("validation error in field '" + fieldError.getField() + "'")
 					.detail(fieldError.getDefaultMessage())
-					.timestamp(now)
 					.developerMessage(ex.getClass().getName())
 					.build());
 		}
 		
 		ResponseError responseError = ResponseError.builder()
 				.status(HttpStatus.BAD_REQUEST.value())
+				.timestamp(new Date())	
 				.errors(lstErrors).build();
 		
 		return new ResponseEntity<>(responseError, HttpStatus.BAD_REQUEST);
@@ -95,12 +94,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseErrorDetail responseErrorDetail = ResponseErrorDetail.builder()
 				.title("http message not readable")
 				.detail(ex.getMessage())
-				.timestamp(new Date().getTime())
 				.developerMessage(ex.getClass().getName())
 				.build();
 
 		ResponseError responseError = ResponseError.builder()
 				.status(status.value())
+				.timestamp(new Date())	
 				.errors(Collections.singletonList(responseErrorDetail))
 				.build();
 		
@@ -113,12 +112,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		ResponseErrorDetail responseErrorDetail = ResponseErrorDetail.builder()
 				.title("internal exception")
 				.detail(ex.getMessage())
-				.timestamp(new Date().getTime())
 				.developerMessage(ex.getClass().getName())
 				.build();
 
 		ResponseError responseError = ResponseError.builder()
 				.status(status.value())
+				.timestamp(new Date())
 				.errors(Collections.singletonList(responseErrorDetail))
 				.build();
 		
