@@ -1,5 +1,6 @@
 package com.rachadel.module.account.service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,4 +62,27 @@ public class AccountService {
 			throw new ResourceNotFountException("there is no account with 'id': " + id);
 		}
 	}
+	
+	public void verifyBalanceAccount(Long id, BigDecimal quantia) {
+		Account account = this.findById(id).get();		
+		if (quantia.compareTo(account.getAvailableCreditLimit()) == 1) {  //-1 menor que| 0 igual | 1 maior que, 
+			throw new ValidationErrorException("Saldo insuficiente");
+		}		
+	}
+	
+	public void efetuarPagamento(Long id, BigDecimal quantia) {
+		Account account = this.findById(id).get();
+		BigDecimal valor = account.getAvailableCreditLimit().add(quantia);
+		account.setAvailableCreditLimit(valor);
+		accountRepository.save(account);		
+	}
+	
+	
+	public void efetuarSaque(Long id, BigDecimal quantia) {
+		this.verifyBalanceAccount(id, quantia);
+		Account account = this.findById(id).get();
+		BigDecimal valor = account.getAvailableCreditLimit().subtract(quantia);
+		account.setAvailableCreditLimit(valor);
+		accountRepository.save(account);		
+	}	
 }

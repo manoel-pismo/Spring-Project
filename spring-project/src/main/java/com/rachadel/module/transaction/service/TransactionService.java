@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rachadel.config.error.exception.ValidationErrorException;
+import com.rachadel.module.account.repository.AccountRepository;
+import com.rachadel.module.account.service.AccountService;
 import com.rachadel.module.transaction.domain.Transaction;
 import com.rachadel.module.transaction.repository.TransactionRepository;
 
@@ -24,6 +26,9 @@ public class TransactionService {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
+	
+	@Autowired
+	private AccountService accountService;
 
 	public TransactionService(TransactionRepository transactionRepository) {
 		this.transactionRepository = transactionRepository;
@@ -37,13 +42,17 @@ public class TransactionService {
 	// salvar
 	public Transaction save(Transaction transaction) {
 		var amount = transaction.getAmount();
+		var accountId = transaction.getAccount().getId();
 		
 		switch (transaction.getOperationType()) {
 		case CASH_PURCHASE:
 		case PURCHASE_IN_INSTALLMENTS:
 		case WITHDRAW:
-			transaction.setAmount(amount.negate());
+			this.accountService.efetuarSaque(accountId, amount);			
+			transaction.setAmount(amount.negate());	
+			break;
 		case PAYMENT:
+			this.accountService.efetuarPagamento(accountId, amount);			
 			break;
 		default:
 			throw new ValidationErrorException("invalid operation type.");

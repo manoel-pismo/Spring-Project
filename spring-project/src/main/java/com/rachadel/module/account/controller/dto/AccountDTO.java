@@ -1,11 +1,13 @@
 package com.rachadel.module.account.controller.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -37,19 +39,24 @@ public class AccountDTO {
 	@Column(unique = true, nullable = false, length = 14)
 	private String documentNumber;
 	
+	@NotNull
+	private BigDecimal availableCreditLimit;
+	
 
 	public AccountDTO(Account account) {
 		super();
 		this.name = account.getName();
 		this.email = account.getEmail();
 		this.documentNumber = account.getDocumentNumber();
+		this.availableCreditLimit = account.getAvailableCreditLimit();
 	}	
 	
 	public Account toModel(AccountDTO accountDTO) {
 		Account account = new Account();
 		account.setName(this.getName());
 		account.setEmail(this.getEmail());	
-		account.setDocumentNumber(this.documentNumber);
+		account.setDocumentNumber(this.getDocumentNumber());
+		account.setAvailableCreditLimit(this.getAvailableCreditLimit());
 		return account;
 	}
 	
