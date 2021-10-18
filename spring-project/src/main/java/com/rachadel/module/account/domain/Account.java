@@ -1,14 +1,12 @@
 package com.rachadel.module.account.domain;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -44,22 +42,9 @@ public class Account {
 	@CPF 
 	@Column(unique = true, nullable = false, length = 14)
 	private String documentNumber;
-	
-	@Column(nullable = false)
-	private BigDecimal balance;
 
 	public Account(Long id) {
 		this.id = id;
 	}
-
-	public Account(Long id, @NotBlank String name, @NotBlank @Email String email,
-			@NotBlank @CPF String documentNumber) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.documentNumber = documentNumber;
-	}	
-	
 	
 }

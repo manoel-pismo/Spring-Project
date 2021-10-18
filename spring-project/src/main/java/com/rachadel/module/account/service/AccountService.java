@@ -1,9 +1,6 @@
 package com.rachadel.module.account.service;
 
-import java.math.BigDecimal;
 import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,15 +46,6 @@ public class AccountService {
 	public Optional<Account> findById(Long id) {
 		this.verifyAccountExistsById(id);
 		return accountRepository.findById(id);
-	}
-	
-	// verificar se a conta tem saldo
-	public void verifyAccountHasBalance(BigDecimal balance, BigDecimal amount) {
-		if (balance.compareTo(amount) >= 0) {  // -1 -- < menor que | -- 0 igual que | -- 1 maior que  
-			throw new ValidationErrorException("account not have balance for withdral."
-														+ " balance: "+ balance
-														+ " amount: "+ amount);
-		}
 	}
 
 	// verificar se a conta não existe por número de documento

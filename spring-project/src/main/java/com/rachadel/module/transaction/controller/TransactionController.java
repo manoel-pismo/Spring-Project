@@ -3,15 +3,20 @@ package com.rachadel.module.transaction.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rachadel.module.transaction.controller.dto.TransactionDTO;
 import com.rachadel.module.transaction.domain.Transaction;
 import com.rachadel.module.transaction.service.TransactionService;
+
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @author Manoel Rachadel Neto
@@ -26,7 +31,15 @@ public class TransactionController {
 	private TransactionService transactionService;
 
 	@PostMapping()
-	public ResponseEntity<?> save(@RequestBody @Valid Transaction transaction) {
-		return new ResponseEntity<>(transactionService.save(transaction),HttpStatus.OK);
+	@ApiOperation(value = "Save given Transaction", response = TransactionDTO.class)	
+	public ResponseEntity<?> save(@RequestBody @Valid TransactionDTO transactionDTO) {
+		this.transactionService.save(transactionDTO.toModel(transactionDTO));
+		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping()
+	@ApiOperation(value = "Return a list with all Transactions", response = Transaction[].class)
+	public ResponseEntity<Page<?>> findAll(Pageable pageable){
+		return ResponseEntity.ok(transactionService.findAll(pageable)); 
 	}
 }
