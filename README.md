@@ -17,7 +17,7 @@ O projeto foi construído utilizando as seguintes dependências:
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [Lombok](https://projectlombok.org)
 * [Swagger2](https://swagger.io/)
-* [H2 batabase](http://www.h2database.com/html/main.html)
+* [H2 database](http://www.h2database.com/html/main.html)
 * [PostgreSQL](https://www.postgresql.org/download/)
 * [Maven](https://maven.apache.org/)
 * [Docker](https://www.docker.com/)
