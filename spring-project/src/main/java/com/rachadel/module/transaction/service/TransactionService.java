@@ -25,14 +25,14 @@ public class TransactionService {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
-	
+
 	@Autowired
 	private AccountService accountService;
 
 	public TransactionService(TransactionRepository transactionRepository) {
 		this.transactionRepository = transactionRepository;
 	}
-	
+
 	// encontrar todos
 	public Page<Transaction> findAll(Pageable pageable) {
 		return this.transactionRepository.findAll(pageable);
@@ -42,29 +42,34 @@ public class TransactionService {
 	public Transaction save(Transaction transaction) {
 		var amount = transaction.getAmount();
 		var accountId = transaction.getAccount().getId();
-		
+
 		switch (transaction.getOperationType()) {
 		case CASH_PURCHASE:
 		case PURCHASE_IN_INSTALLMENTS:
 		case WITHDRAW:
-			this.accountService.efetuarSaque(accountId, amount);			
-			transaction.setAmount(amount.negate());	
+			transaction.setAmount(amount.negate());
+			this.accountService.makeWithdral(accountId, amount);
 			break;
 		case PAYMENT:
-			this.accountService.efetuarPagamento(accountId, amount);			
+			this.accountService.makePayment(accountId, amount);
 			break;
 		default:
 			throw new ValidationErrorException("invalid operation type.");
 		}
-		
+
 		transaction.setEventDate(new Date());
 		return transactionRepository.save(transaction);
 	}
-	
+
+// # Teste Transational	
+//	public Transaction saveTest(Transaction transaction) {
+//		return transactionRepository.save(transaction);
+//	}
+
 	// verificar quantia válida (Msg: A quantia deve ser maior que zero)
 	public void verifyValidAmount(BigDecimal amount) {
 		if (amount.compareTo(BigDecimal.ZERO) <= 0) { // (-1 Menor Que / 0 Igual Que)
 			throw new ValidationErrorException("the amount must be greater than zero");
 		}
-	}		
+	}
 }

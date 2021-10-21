@@ -38,6 +38,11 @@ public class AccountService {
 		return accountRepository.save(account);
 	}
 	
+	// update
+	public Account update(Account account) {
+		return accountRepository.save(account);
+	}	
+	
 	// encontrar todos
 	public Page<Account> findAll(Pageable pageable){
 		return accountRepository.findAll(pageable);
@@ -63,26 +68,50 @@ public class AccountService {
 		}
 	}
 	
-	public void verifyBalanceAccount(Long id, BigDecimal quantia) {
-		Account account = this.findById(id).get();		
-		if (quantia.compareTo(account.getAvailableCreditLimit()) == 1) {  //-1 menor que| 0 igual | 1 maior que, 
-			throw new ValidationErrorException("Saldo insuficiente");
+	// verificar saldo da conta 
+	public void verifyBalanceAccount(Long accountId, BigDecimal amount) {
+		Account account = accountRepository.findById(accountId).get();		
+		if (amount.compareTo(account.getAvailableCreditLimit()) == 1) {  //-1 menor que| 0 igual | 1 maior que, 
+			throw new ValidationErrorException("Insufficient funds");
 		}		
 	}
 	
-	public void efetuarPagamento(Long id, BigDecimal quantia) {
-		Account account = this.findById(id).get();
-		BigDecimal valor = account.getAvailableCreditLimit().add(quantia);
+	// # Teste Transational - verificar saldo da conta 
+//	public void verifyBalanceAccount(Account account, BigDecimal amount) {	
+//		if (amount.compareTo(account.getAvailableCreditLimit()) == 1) {  //-1 menor que| 0 igual | 1 maior que, 
+//			throw new ValidationErrorException("Saldo insuficiente");
+//		}		
+//	}
+	
+	// efetuar pagamento
+	public void makePayment(Long accountId, BigDecimal amount) {
+		Account account = accountRepository.findById(accountId).get();
+		BigDecimal valor = account.getAvailableCreditLimit().add(amount);
 		account.setAvailableCreditLimit(valor);
 		accountRepository.save(account);		
 	}
 	
-	
-	public void efetuarSaque(Long id, BigDecimal quantia) {
-		this.verifyBalanceAccount(id, quantia);
-		Account account = this.findById(id).get();
-		BigDecimal valor = account.getAvailableCreditLimit().subtract(quantia);
+	// efetuar saque
+	public void makeWithdral(Long accountId, BigDecimal amount) {
+		this.verifyBalanceAccount(accountId, amount);
+		Account account = accountRepository.findById(accountId).get();
+		BigDecimal valor = account.getAvailableCreditLimit().subtract(amount);
 		account.setAvailableCreditLimit(valor);
 		accountRepository.save(account);		
 	}	
+	
+	// Teste - Transational Saque
+//	public void makeWithdralTestError(Transaction transaction) {
+//		Account account = accountRepository.findById(transaction.getAccount().getId()).get();
+//		
+//		this.verifyBalanceAccount(account, transaction.getAmount());
+//		
+//		BigDecimal valor = account.getAvailableCreditLimit().subtract(transaction.getAmount());
+//		account.setAvailableCreditLimit(valor);
+//		
+//		accountRepository.save(account);
+//		
+//		transaction.setEventDate(new Date());
+//		transactionService.saveTest(transaction);
+//	}
 }

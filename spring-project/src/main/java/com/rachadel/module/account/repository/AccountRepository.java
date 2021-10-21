@@ -20,4 +20,8 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
 	Page<Account> findAll(Pageable pageable);
 	
 	Optional<Account> findByDocumentNumber(String documentNumber);
+	
+// # Teste Transational	
+//	@Lock(LockModeType.PESSIMISTIC_READ)
+//	Optional<Account> findById(Long id);
 }

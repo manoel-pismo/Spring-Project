@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +30,10 @@ public class TransactionController {
 	
 	@Autowired
 	private TransactionService transactionService;
-
+	
 	@PostMapping()
-	@ApiOperation(value = "Save given Transaction", response = TransactionDTO.class)	
+	@ApiOperation(value = "Save given Transaction", response = TransactionDTO.class)
+	@Transactional
 	public ResponseEntity<?> save(@RequestBody @Valid TransactionDTO transactionDTO) {
 		this.transactionService.save(transactionDTO.toModel(transactionDTO));
 		return ResponseEntity.ok().build();
