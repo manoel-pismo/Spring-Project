@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rachadel.config.error.exception.ValidationErrorException;
-import com.rachadel.module.account.repository.AccountRepository;
 import com.rachadel.module.account.service.AccountService;
 import com.rachadel.module.transaction.domain.Transaction;
 import com.rachadel.module.transaction.repository.TransactionRepository;
